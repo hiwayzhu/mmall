@@ -1,7 +1,12 @@
 package com.example.mmall.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serializable;
 
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+//保证序列化Json的时候，如果是null的对象，key也会消失
 public class ServerResponce<T>  implements Serializable {
 
     private int status;
@@ -25,6 +30,7 @@ public class ServerResponce<T>  implements Serializable {
         this.msg = msg;
     }
 
+    @JsonIgnore
     public boolean isSuccess(){
         return this.status ==ResponseCode.SUCCESS.getCode();
     }
@@ -52,7 +58,7 @@ public class ServerResponce<T>  implements Serializable {
         return new ServerResponce<T>(ResponseCode.SUCCESS.getCode(),data);
     }
 
-    public static <T> ServerResponce<T> createBySuccessMsg(String msg,T data){
+    public static <T> ServerResponce<T> createBySuccess(String msg,T data){
         return new ServerResponce<T>(ResponseCode.SUCCESS.getCode(),msg,data);
     }
 
@@ -61,6 +67,10 @@ public class ServerResponce<T>  implements Serializable {
     }
     public static <T> ServerResponce<T> createByErrorMsg(String errorMsg){
         return new ServerResponce<T>(ResponseCode.ERROR.getCode(),errorMsg);
+    }
+
+    public static <T> ServerResponce<T> createByErrorCodeMessage(int errorCode,String errorMessage){
+        return new ServerResponce<T>(errorCode,errorMessage);
     }
 
 }
