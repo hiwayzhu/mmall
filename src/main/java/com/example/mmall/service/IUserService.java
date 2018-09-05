@@ -9,4 +9,6 @@ public interface IUserService {
     ServerResponce<String> register(User user);
     ServerResponce<String> checkValid(String str,String type);
     ServerResponce selectQuestion(String username);
+     ServerResponce<String> checkAnswer(String username,String question,String answer);
+
 }

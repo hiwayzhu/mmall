@@ -72,4 +72,8 @@ public class UserController {
         return iUserService.selectQuestion(username);
     }
 
+    public ServerResponce<String> forgetCheckAnswer(String username,String question,String answer){
+        return  iUserService.checkAnswer(username,question,answer);
+    }
+
 }

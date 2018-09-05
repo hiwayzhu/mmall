@@ -2,6 +2,7 @@ package com.example.mmall.service.impl;
 
 import com.example.mmall.common.Const;
 import com.example.mmall.common.ServerResponce;
+import com.example.mmall.common.TokenCache;
 import com.example.mmall.dao.UserMapper;
 import com.example.mmall.pojo.User;
 import com.example.mmall.service.IUserService;
@@ -9,6 +10,8 @@ import com.example.mmall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service("iUserService")
 public class UserServiceImpl implements IUserService {
@@ -85,5 +88,15 @@ public class UserServiceImpl implements IUserService {
         }
 
         return ServerResponce.createByErrorMsg("找回密码的问题是空的");
+    }
+
+    public ServerResponce<String> checkAnswer(String username,String question,String answer){
+        int resultCount = userMapper.checkAnswer(username,question,answer);
+        if(resultCount>0){
+            String forgetToken = UUID.randomUUID().toString();
+            TokenCache.setKey("token_"+username,forgetToken);
+            return  ServerResponce.createBySuccess(forgetToken);
+        }
+        return ServerResponce.createByErrorMsg("问题答案错误！");
     }
 }
