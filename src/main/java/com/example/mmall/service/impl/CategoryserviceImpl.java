@@ -31,5 +31,5 @@ public class CategoryserviceImpl implements ICategoryService {
 
         return ServerResponse.createByErrorMsg("添加品类失败");
     }
-    p
+
 }
