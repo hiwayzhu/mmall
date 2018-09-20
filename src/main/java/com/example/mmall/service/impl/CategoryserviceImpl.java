@@ -6,7 +6,6 @@ import com.example.mmall.pojo.Category;
 import com.example.mmall.service.ICategoryService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.mysql.fabric.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -71,7 +69,7 @@ public class CategoryserviceImpl implements ICategoryService {
         Set<Category> categorySet = Sets.newHashSet();
         findChildrenCategory(categorySet,categoryId);
         List<Integer> categoryIdList = Lists.newArrayList();
-        if(categoryId!==null){
+        if(categoryId!=null){
             for(Category categoryItem:categorySet){
                 categoryIdList.add(categoryItem.getId());
             }
