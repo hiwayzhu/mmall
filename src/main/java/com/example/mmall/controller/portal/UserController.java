@@ -66,7 +66,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "forget_get_question.do",method = RequestMethod.POST)
+    @RequestMapping(value = "forgetGetQuestion.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetGetQuestion(String username){
         return iUserService.selectQuestion(username);
