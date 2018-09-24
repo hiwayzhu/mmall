@@ -10,9 +10,12 @@ import com.example.mmall.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -50,6 +53,56 @@ public class ProductManagerController {
         }else{
             return ServerResponse.createByErrorMsg("无权限操作");
         }
+    }
+
+    @RequestMapping("detail.do")
+    @ResponseBody
+    public ServerResponse detail(HttpSession session, Integer productId){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请重新登录");
+        }
+        if(iUserService.checkAdminRole(user).isSuccess()){
+           //填充业务
+            return iProductService.managerProductDetail(productId);
+        }else{
+            return ServerResponse.createByErrorMsg("无权限操作");
+        }
+    }
+
+    @RequestMapping("list.do")
+    @ResponseBody
+    public ServerResponse getList(HttpSession session, @RequestParam(value="pageNum",defaultValue = "1") int pageNum,@RequestParam(value="pageSize",defaultValue = "10") int pageSize ){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请重新登录");
+        }
+        if(iUserService.checkAdminRole(user).isSuccess()){
+            //填充业务
+            return iProductService.getProductList(pageNum,pageSize);
+        }else{
+            return ServerResponse.createByErrorMsg("无权限操作");
+        }
+    }
+
+
+    @RequestMapping("search.do")
+    @ResponseBody
+    public ServerResponse productSearch(HttpSession session,String productName,Integer productId, @RequestParam(value="pageNum",defaultValue = "1") int pageNum,@RequestParam(value="pageSize",defaultValue = "10") int pageSize ){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请重新登录");
+        }
+        if(iUserService.checkAdminRole(user).isSuccess()){
+            //填充业务
+            return iProductService.searchProduct(productName,productId,pageNum,pageSize);
+        }else{
+            return ServerResponse.createByErrorMsg("无权限操作");
+        }
+    }
+
+    public ServerResponse upload(MultipartFile file, HttpServletRequest request){
+        String path = request.getSession().getServletContext().getRealPath("upload");
     }
 
 }
