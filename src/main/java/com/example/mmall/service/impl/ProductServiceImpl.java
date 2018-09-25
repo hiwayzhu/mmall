@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("iProductServiceImpl")
+@Service("iProductService")
 public class ProductServiceImpl implements IProductService {
 
     @Autowired
