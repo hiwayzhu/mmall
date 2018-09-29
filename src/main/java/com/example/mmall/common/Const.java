@@ -15,6 +15,11 @@ public class Const {
         Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");
     }
 
+    public interface Cart{
+        int CHECKED = 1;//选中状态
+        int UN_CHECKED = 0;//未选中状态
+    }
+
     public interface Role{
         int ROLE_CUSTOMER = 0;
         int ROLE_ADMIN = 1;
