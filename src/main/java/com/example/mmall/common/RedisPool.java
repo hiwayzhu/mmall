@@ -10,4 +10,9 @@ public class RedisPool {
     private static Integer minIdle =  //在jedispool中最小的idle状态（空闲的）的jedis实例个数
     private static Boolean testOnBorrow = //在borrow一个jedis实例的时候，是否需要进行验证操作，如果赋值true，则获得的redis实例是肯定可以用的
     private static Boolean testOnReturn = //在return一个jedis实例的时候，是否需要进行验证操作，如果赋值true，则放回jedispool的redis实例是肯定可以用的
+
+    private static void  init(){
+
+    }
+
 }
