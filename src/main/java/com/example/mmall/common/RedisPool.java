@@ -2,6 +2,7 @@ package com.example.mmall.common;
 
 import com.example.mmall.util.PropertiesUtil;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 public class RedisPool {
 
@@ -12,8 +13,19 @@ public class RedisPool {
     private static Boolean testOnBorrow = Boolean.parseBoolean(PropertiesUtil.getProperty("redis.test.borrow","true"));//在borrow一个jedis实例的时候，是否需要进行验证操作，如果赋值true，则获得的redis实例是肯定可以用的
     private static Boolean testOnReturn =Boolean.parseBoolean(PropertiesUtil.getProperty("redis.test.return","true")); //在return一个jedis实例的时候，是否需要进行验证操作，如果赋值true，则放回jedispool的redis实例是肯定可以用的
 
-    private static void  init(){
 
+    private static void  initPool(){
+        JedisPoolConfig config = new JedisPoolConfig();
+        config.setMaxTotal(maxTotal);
+        config.setMaxIdle(maxIdle);
+        config.setMinIdle(minIdle);
+        config.setTestOnBorrow(testOnBorrow);
+        config.setTestOnReturn(testOnReturn);
+
+        pool = new JedisPool(config,ip,port,1000*2);
     }
 
+    static {
+        initPool();
+    }
 }
