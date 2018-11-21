@@ -46,6 +46,10 @@ public class Const {
         public int getCode() {
             return code;
         }
-    }
 
+
+    }
+    public interface REDIS_LOCK{
+        String CLOSE_ORDER_TASK_lock = "CLOSE_ORDER_TASK_lock" ;
+    }
 }
